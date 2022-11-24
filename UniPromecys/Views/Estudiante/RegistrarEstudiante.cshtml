@@ -1,0 +1,412 @@
+﻿@model UniPromecys.Models.Estudiante.EstudianteFormModel
+
+@using (Html.BeginForm("GuardarEstudiante", "Estudiante", FormMethod.Post))
+{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Registrar Estudiante</title>
+    </head>
+    <body>
+        <form>
+            <div class="mb-3" style="display:none">
+                <label class="form-label">IdAsignatura</label>
+                @Html.TextBoxFor(x => x.Estudiante.IdEstudiante,new { @class= "form-control" , @id="txtIdAsignatura" , @required = true, @readonly = true})
+                @Html.HiddenFor(x => x.IdUsuario, new{@id="HdfIdUsuario"})
+                @Html.HiddenFor(x => x.Estudiante.PermisoAdministrar, new{@id="HdfPermisoAdministrar"})
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Primer Nombre</label>
+                    @Html.TextBoxFor(x => x.Estudiante.PrimerNombre,new { @class= "form-control" , @id="txtPrimerNombre" , @required = true, @placeholder="Ej: Isela"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Segundo Nombre</label>
+                    @Html.TextBoxFor(x => x.Estudiante.SegundoNombre,new { @class= "form-control" , @id="txtSegundoNombre",@placeholder="Ej: del Rosario"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Primer Apellido</label>
+                    @Html.TextBoxFor(x => x.Estudiante.PrimerApellido,new { @class= "form-control" , @id="txtPrimerApellido" , @required = true,@placeholder="Ej: Ramos"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Segundo Apellido</label>
+                    @Html.TextBoxFor(x => x.Estudiante.SegundoApellido,new { @class= "form-control" , @id="txtSegundoApellido" ,@placeholder="Ej: Mercado"})
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Nacionalidad</label>
+                    @Html.DropDownListFor(x => x.IdNacionalidad,new SelectList(Model.NacionalidadList,"IdNacionalidad","Pais"),"Selecione...",new {@class="form-control",@id="cmbNacionalidad",@required=true})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Ciudad</label>
+                    @Html.DropDownListFor(x => x.IdDepartamento,new SelectList(Model.DeparamentoList,"IdDepartamento","Nombre"),"Selecione...",new {@class="form-control",@id="cmbDepartamento",@required=true})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Municipio</label>
+                    @Html.DropDownListFor(x => x.Estudiante.IdMunicipio,new SelectList(Model.MunicipioList,"IdMunicipio","Nombre"),"Selecione...",new {@class="form-control",@id="cmbMunicipio",@required=true})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Edad</label>
+                    @Html.TextBoxFor(x => x.Estudiante.Edad,new { @class= "form-control" , @id="txtEdad" , @required = true, @placeholder= "Ej: 23"})
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-9">
+                    <label for="inputAddress" style="font-weight: bold;">Direccion Domicilio Actual</label>
+                    @Html.TextBoxFor(x => x.Estudiante.Direccion,new { @class= "form-control" , @id="txtDireccion" , @required = true,@placeholder="Ej: Costado sur de Villa Progreso"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">CodigoPostal</label>
+                    @Html.TextBoxFor(x => x.Estudiante.CodigoPostal,new { @class= "form-control" , @id="txtCodigoPostal" , @placeholder="Ej: 11001"})
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Genero</label>
+                    <select id="cmbGenero" class="form-control" name="@Html.NameFor(x=>x.Estudiante.IdGenero)" required>
+                        <option value="0">Seleccione...</option>
+                        <option value="1">Masculino</option>
+                        <option value="2">Femenino</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Tipo Identificacion</label>
+                    <select required id="cmbTipoIdentificacion" class="form-control" name="@Html.NameFor(x=>x.Estudiante.IdTipoIdentificacion)">
+                        <option value="0">Seleccione...</option>
+                        <option value="3">Cedula Nacional</option>
+                        <option value="4">Cedula Residencia</option>
+                        <option value="5">Pasaporte</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Identificacion</label>
+                    @Html.TextBoxFor(x => x.Estudiante.Identificacion,new { @class= "form-control" , @id="txtIdentificacion" ,@placeholder="Ej: 0012906980015D"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Correo</label>
+                    @Html.TextBoxFor(x => x.Estudiante.Correo,new { @class= "form-control" , @id="txtCorreo",@type="email" , @required = true, @placeholder="Ej: iselarm99@gmail.com"})
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Tipo Contacto</label>
+                    <select id="cmbTipoContacto" class="form-control" name="@Html.NameFor(x=>x.Estudiante.IdTipoContacto)" required>
+                        <option value="0">Seleccione...</option>
+                        <option value="6">Telefono</option>
+                        <option value="7">Celular</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style=" font-weight: bold;">Contacto</label>
+                    @Html.TextBoxFor(x => x.Estudiante.Contacto,new { @class= "form-control",@type="number" , @id="txtContacto" , @required = true, @placeholder="Ej: 82624427"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Carnet</label>
+                    @Html.TextBoxFor(x => x.Estudiante.Carnet,new { @class= "form-control" , @id="txtCarnet" , @required = true, @placeholder="Ej: 2022-0015D"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Descuento</label>
+                    @Html.DropDownListFor(x => x.Estudiante.IdSolvencia,new SelectList(Model.SolvenciaList,"IdSolvencia","Descripcion"),"Selecione...",new {@class="form-control",@id="cmbSolvencia",@required=true})
+                </div>
+            </div>
+            <div class="align-bottom">
+                <button type="submit" id="btnGuardar" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-warning" onclick="Regresar()">Regresar</a>
+            </div>
+        </form>
+    </body>
+    </html>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+        @if (Model.Estudiante.Accion == AccionesControlador.Acciones.Editar.ToString())
+        {
+            @if (Model.Estudiante.IdTipoIdentificacion == 3)
+            {
+                @:$("#txtEdad").prop('readonly', true);
+            }
+        }
+
+                $("#txtContacto").on('keyup', function () {
+                    let Contacto = $("#txtContacto").val()
+                    if (Contacto.length < 5) {
+                        if($("#cmbNacionalidad").val() === '1'){
+                            $("#txtContacto").val('00505')
+                        }                      
+                    }
+                })
+
+                if ($("#cmbTipoIdentificacion").val() === '0') {
+                $("#txtIdentificacion").prop('readonly', true);
+            }
+
+            $("#cmbTipoIdentificacion").on('change', function () {
+                if ($("#cmbTipoIdentificacion").val() === '3') {
+                    $("#txtIdentificacion").removeAttr("readonly");
+                    $("#txtIdentificacion").attr('maxlength', '14');
+                    $("#txtEdad").attr('readonly', 'true');
+                } else {
+                    $("#txtEdad").removeAttr("readonly");
+                    $("#txtIdentificacion").removeAttr("maxlength");
+                    if ($("#cmbTipoIdentificacion").val() === '0') {
+                        $("#txtIdentificacion").prop('readonly', true);
+                    } else {
+                        $("#txtIdentificacion").removeAttr("readonly");
+                    }
+                }
+            });
+
+            $("#btnGuardar").on('click', function () {
+                var ta = $("#txtIdentificacion").val();
+                if ($("#cmbTipoIdentificacion").val() === '3' && ta.length !== 14) {
+                    Swal.fire("Error", "¡El n° de cédula no es válido!", "error")
+                    return false;
+                }
+
+                if ($("#cmbGenero").val() === '0' || $("#cmbTipoIdentificacion").val() === '0' || $("#cmbTipoContacto").val() === '0') {
+                    Swal.fire("Error", "¡Debe llenar los campos!", "error")
+                    return false;
+                }
+            })
+
+
+            $("#txtIdentificacion").keyup(function () {
+                var ta = $("#txtIdentificacion").val();
+
+                if ($("#cmbTipoIdentificacion").val() === '3' && ta.length === 14) {
+                    ValidarCedula(ta)
+
+                    if (ValidarCedula(ta)) {
+                        CalcularEdad(ta);
+                    }
+                }
+
+                if (ta.length === 0) {
+                    $("#txtEdad").val('');
+                }
+            });
+
+            $("#HdfIdUsuario").val();
+            $("#HdfPermisoAdministrar").val(localStorage.permisos.includes("ListEst") ? true : false);
+
+            if (!localStorage.permisos.includes("AggEst")) {
+                window.location.href = "/Home/Index"
+            }
+
+            obtenerGenero();
+            obtenerTipoIdentificacion();
+            obtenerTipoContacto();
+
+            if (@Model.Estudiante.IdNacionalidad > 0) {
+                cargarDatos();
+            }
+
+            $("#cmbNacionalidad").on('change', function () {
+                ObtenerDepartamento();
+                if($("#cmbNacionalidad").val() === '1'){
+                    $("#txtContacto").val('00505')
+                }
+            });
+
+            $("#cmbDepartamento").on('change', function () {
+                ObtenerMunicipio();
+            });
+
+            $("#txtEdad").val() == '0' ? $("#txtEdad").val('') : ''
+
+            $("#txtContacto").val() == '0' ? $("#txtContacto").val('') : ''
+
+        });
+
+        function CalcularEdad(Cedula) {
+            let ExtraerFecha = Cedula.substr(3, 6);
+            let Año = ExtraerFecha.substr(4);
+            let Mes = ExtraerFecha.substr(2, 2);
+            let Dia = ExtraerFecha.substr(0, 2);
+            let FechaArmada = Año + '-' + Mes + '-' + Dia;
+
+            let hoy = new Date()
+            let fechaNacimiento = new Date(FechaArmada)
+            let edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+            let diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+            if (
+                diferenciaMeses < 0 ||
+                (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+            ) {
+                edad--
+            }
+
+            $("#txtEdad").val(edad);
+        }
+
+        function ValidarCedula(cadena) {
+            if (!EsCedula(cadena)) {
+                Swal.fire("Error", "¡El n° de cédula no es válido!", "error")
+                $("#txtIdentificacion").val('')
+                return false
+            } else {
+                return true
+            }
+        }
+
+        function EsCedula(elTexto) {
+            var es = true;
+            //validar longitud
+            if (elTexto.length != 14) {
+                es = false;
+            } else {
+                //verificar si tiene el formato correcto
+                var RegExPattern = /^\d{13}[A-Z]{1}$/;
+                if (!elTexto.match(RegExPattern)) {
+                    es = false;
+                } else {
+                    //verificar si contiene una fecha válida
+                    var sFecha = elTexto.substring(3, 9);
+                    var sDia = elTexto.substring(3, 5);
+                    var sMes = elTexto.substring(5, 7);
+                    var sAnio = elTexto.substring(7, 9);
+                    var aa = parseInt(sAnio);
+                    var mm = parseInt(sMes);
+                    var dd = parseInt(sDia);
+                    if (aa >= 0 && aa <= 29) {
+                        aa += 2000;
+                    } else {
+                        aa += 1900;
+                    }
+                    var bisiesto = false;
+                    if (aa % 2 == 0) {
+                        if (aa % 4 == 0) {
+                            bisiesto = true;
+                        }
+                    }
+                    if (mm < 1 || mm > 12) {
+                        es = false;
+                    } else {
+                        switch (mm) {
+                            case 1:
+                            case 3:
+                            case 5:
+                            case 7:
+                            case 8:
+                            case 10:
+                            case 12:
+                                if (dd < 1 || dd > 31) {
+                                    return false;
+                                }
+                                break;
+                            case 2:
+                                if (bisiesto) {
+                                    if (dd < 1 || dd > 29) {
+                                        es = false;
+                                    }
+                                } else {
+                                    if (dd < 1 || dd > 28) {
+                                        es = false;
+                                    }
+                                }
+                                break;
+                            default:
+                                if (dd < 1 || dd > 30) {
+                                    es = false;
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+            return es;
+        }
+
+        function Regresar() {
+            window.location.href = localStorage.permisos.includes("ListEst") ? "/Estudiante/Administrar" : "/Home/Index";
+        }
+
+        function cargarDatos() {
+            $("#cmbNacionalidad").val('@Model.Estudiante.IdNacionalidad')
+            $("#cmbDepartamento").val('@Model.Estudiante.IdDepartamento')
+            $("#cmbMunicipio").val('@Model.Estudiante.IdMunicipio')
+        }
+
+        function obtenerGenero() {
+            $("#cmbGenero").val('@Model.Estudiante.IdGenero');
+        }
+
+        function obtenerTipoIdentificacion() {
+            $("#cmbTipoIdentificacion").val('@Model.Estudiante.IdTipoIdentificacion');
+        }
+
+        function obtenerTipoContacto() {
+            $("#cmbTipoContacto").val('@Model.Estudiante.IdTipoContacto');
+        }
+
+        function ObtenerDepartamento() {
+            let cmbDepartamento = $("#cmbDepartamento");
+            let cmbNacionalidad = $("#cmbNacionalidad").val();
+            let cmbMunicipio = $("#cmbMunicipio");
+            let urlAction = '@Url.Action("ObtenerDepartamento")';
+
+            cmbDepartamento.empty();
+            cmbMunicipio.empty();
+            if (!cmbNacionalidad)
+                return;
+
+            $.ajax({
+                type: 'GET',
+                url: urlAction,
+                data: {
+                    IdNacionalidad: cmbNacionalidad
+                },
+
+                success: function (resultado) {
+                    let options = [];
+                    $.each(resultado, function (index, valor) {
+                        let option = `<option value="${valor.idDepartamento}" >${valor.nombre} </option>`
+                        options.push(option);
+                    });
+                    cmbDepartamento.append(options);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        }
+
+        function ObtenerMunicipio() {
+            let cmbDepartamento = $("#cmbDepartamento option:selected").val();
+            let cmbMunicipio = $("#cmbMunicipio");
+            let urlAction = '@Url.Action("ObtenerMunicipio")';
+
+            cmbMunicipio.empty();
+
+            if (!cmbDepartamento)
+                return;
+
+            $.ajax({
+                type: 'GET',
+                url: urlAction,
+                data: {
+                    IdDepartamento: cmbDepartamento
+                },
+
+                success: function (resultado) {
+                    let options = [];
+                    $.each(resultado, function (index, valor) {
+                        let option = `<option value="${valor.idMunicipio}" >${valor.nombre} </option>`
+                        options.push(option);
+                    });
+                    cmbMunicipio.append(options);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
+    }
+

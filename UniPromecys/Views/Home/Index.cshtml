@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center" id="Home">
+    <img id="img" width="650" height="150" src="https://fcys.uni.edu.ni/wp-content/uploads/2022/03/Baner-Encabezado-Promecys-1024x259.png" />
+    <br />
+    <br />
+    <h5>Perfil del ingeniero en sistemas</h5>
+    <hr />
+    <p>
+        Actualmente las organizaciones enfrentan los cambios del fenómeno de la globalización y la internacionalización así como las condiciones en las que se da el procesamiento de la información y la construcción del conocimiento, por lo tanto, se requiere del desarrollo y gestión de sistemas organizacionales, que les permita la generación de soluciones, articulando los diferentes subsistemas de la organización en pro de lograr sinergia, efectividad, calidad y productividad para la consecución de los objetivos de la misma, contribuyendo así al desarrollo socioeconómico del país.
+
+        Al finalizar el programa de formación académica con nosotros el graduado en Ingeniería de Sistemas, habrá adquirido los conocimientos, habilidades y actitudes que lo acreditan para insertarse con alta disposición, en los diferentes campos de acción de la carrera, siendo capaces de desarrollar y gestionar sistemas organizacionales eficaces, eficientes, innovadores, de calidad y competitivos de manera que aporten al desarrollo socioeconómico y tecnológico de la sociedad.
+    </p>
+
+    <h5>Programa de formación</h5>
+    <hr />
+    <img id="img2" with="259" height="650" src="https://fcys.uni.edu.ni/wp-content/uploads/2022/02/Programa-de-formacion-Promecys.png" />
+</div>
+
+@*@section scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: "ObtenerPermisos",
+                data: {
+                },
+
+                success: function (resultado) {
+                    localStorage.setItem("permisos", JSON.stringify(resultado));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        })
+
+        
+    </script>
+}*@

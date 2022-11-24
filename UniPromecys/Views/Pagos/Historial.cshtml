@@ -1,0 +1,101 @@
+﻿@model UniPromecys.Models.Pagos.PagosItemModel
+<div class="card-header">
+    <div class="row col-md-12 justify-content-end">
+        <div class="form-group d-flex">
+            <label>Promecys -> Catalogos -> Estudiante</label>
+        </div>
+    </div>
+    <div class="justify-content-center">
+        <div class="form-group d-flex justify-content-center row">
+            <label class="align-self-end">Fecha Desde:</label>
+            <label>&nbsp;</label>
+            <input type="date" id="FechaDesde" name="@Model.FechaDesde"/>
+            <label>&nbsp;</label>
+            <label>&nbsp;</label>
+            <label class="align-self-end">Fecha Hasta:</label>
+            <label>&nbsp;</label>
+            @*@Html.TextBoxFor(x => x.FechaHasta,"",new{@type="date"})*@
+            <input type="date" id="FechaHasta" name="@Model.FechaHasta"/>
+            <button class="btn" style="" id="btnBuscar"><li class="fa-solid fa-magnifying-glass"></li></button>
+        </div>
+    </div>
+</div>
+<hr />
+<table class="table table-bordered table-responsive-xl top-auto" id="tablaHistorial">
+    <thead>
+        <tr>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Usuario
+            </th>
+            <th>
+                Descripcion
+            </th>
+            <th>
+                Precio
+            </th>
+            <th>
+                Descuento
+            </th>
+            <th>
+                Total
+            </th>         
+        </tr>
+    </thead>
+    <tbody>
+        <div id="loading" class="loading" style="display:none; margin-left:5%">
+            <img src="~/images/loading.webp" alt="loading" width="10%" />
+        </div>
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        function cargarFechaActual() {
+            var fecha = new Date(); //Fecha actual
+            var mes = fecha.getMonth() + 1; //obteniendo mes
+            var dia = fecha.getDate(); //obteniendo dia
+            var ano = fecha.getFullYear(); //obteniendo año
+            if (dia < 10)
+                dia = '0' + dia; //agrega cero si el menor de 10
+            if (mes < 10)
+                mes = '0' + mes //agrega cero si el menor de 10
+            document.getElementById('FechaDesde').value = ano + "-" + mes + "-" + dia;
+            document.getElementById('FechaHasta').value = ano + "-" + mes + "-" + dia;
+        }
+
+        $(document).ready(function(){
+            cargarFechaActual();
+            ObtenerDatos();
+
+            $("#btnBuscar").on('click', function () {
+                ObtenerDatos();         
+            });
+        });
+    
+        function ObtenerDatos() {
+            let FechaDesde = $("#FechaDesde").val();
+            let FechaHasta = $("#FechaHasta").val();
+            let tablaHistorial = $("#tablaHistorial tbody");
+
+            $.ajax({
+                type: "GET",
+                url: "ObtenerHistorial",
+                data: {
+                    FechaDesde: FechaDesde,
+                    FechaHasta: FechaHasta
+                },
+                beforeSend: function(){
+                    document.getElementById("loading").style.display = "";
+                },
+                success: function (res) {
+                    $("#tablaHistorial tbody").empty();
+                    document.getElementById("loading").style.display = "none";
+                    tablaHistorial.append(res);
+                }
+            });
+        }
+    </script>
+}

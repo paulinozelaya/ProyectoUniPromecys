@@ -1,0 +1,8 @@
+﻿@model List<UniPromecys.Models.Pagos.PagosItemModel>
+
+
+
+@foreach (var item in Model)
+{
+    Html.RenderPartial("ObtenerHistorial", item);
+}

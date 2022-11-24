@@ -1,0 +1,244 @@
+﻿@model UniPromecys.Models.Cuentas.CuentasFormModel
+@*@{
+        Layout = null;
+    }*@
+@using (Html.BeginForm("GuardarCuenta", "Cuentas", FormMethod.Post))
+{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>RegistrarAsignatura</title>
+    </head>
+    <body>
+        <form>
+            <div class="mb-3" style="display:none">
+                <label class="form-label">IdTipoDePago</label>
+                @Html.TextBoxFor(x => x.CuentasItemModel.IdCuenta,new { @class= "form-control" , @id="txtIdCuenta" , @required = true, @readonly = true})
+                @Html.HiddenFor(x => x.IdUsuario, new{@id="HdfIdUsuario"})
+                @Html.HiddenFor(x => x.PermisoAdministrar, new{@id="HdfPermisoAdministrar"})
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Usuario</label>
+                    @Html.TextBoxFor(x => x.CuentasItemModel.Usuario,new { @class= "form-control" , @id="txtUsuario" , @required = true, @placeholder="Ej: Mat"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Contraseña</label>
+
+                    @Html.TextBoxFor(x => x.CuentasItemModel.Contrasenia,new { @class= "form-control" ,@type="password", @id="txtContrasenia" , @required = true, @placeholder="Ej: Mat"})
+                    <a id="chkShow"><i id="eye" class="fa fa-eye"></i></a>
+                </div>
+                @*<div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Nombre Completo</label>
+                    @Html.TextBoxFor(x => x.CuentasItemModel.NombreCompleto,new { @class= "form-control", @id="txtNombreCompleto", @required = true,@placeholder="Ej: 50"})
+                </div>*@
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Nombre Completo</label>
+                    <select class="js-example-basic-single form-control" name="@Html.NameFor(x => x.CuentasItemModel.IdPersona)" id="cmbPersona">
+                        <option value="">Seleccione...</option>
+                        @foreach (var item in Model.empleadoList)
+                        {
+                            <option value="@item.IdPersona" data-identificacion="@item.Identificacion">
+                                @item.NombreCompleto
+                            </option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Modulos</label>
+                    @Html.DropDownListFor(x => x.IdModulo,new SelectList(Model.modulosList,"IdModulo","Nombre"),"Selecione...",new {@class="form-control",@id="cmbModulos"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputState" style="font-weight: bold;">Permisos</label>
+                    @Html.DropDownListFor(x => x.IdPermiso,new SelectList(Model.permisosList,"IdRol","Nombre"),"Selecione...",new {@class="form-control",@id="cmbPermisos"})
+                </div>
+            </div>
+            <div class="col-md-3">
+                <a class="btn btn-success" id="btn-agregar"><li class="fa fa-plus" style="color:#fff; font-size:14px"> Agregar</li></a>
+            </div>
+            <div class="card-body" style="padding:0px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <table id="tbl-detalleCuenta" class="table table-bordered table-responsive-xl">
+                                <thead>
+                                    <tr>
+                                        <th style="width:15px">
+
+                                        </th>
+                                        <th>
+                                            Modulo
+                                        </th>
+                                        <th>
+                                            Permiso
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(Model.DetalleCuenta.Any()){
+                                        @foreach(var item in Model.DetalleCuenta){
+                                            Html.RenderPartial("DetalleRolCuenta",item);
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="align-bottom">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-warning" onclick="Regresar()">Regresar</a>
+            </div>
+
+        </form>
+    </body>
+    </html>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#cmbPersona").val(@Model.CuentasItemModel.IdPersona);
+            $('.js-example-basic-single').select2();
+
+        @if (Model.CuentasItemModel.Accion == AccionesControlador.Acciones.Editar.ToString())
+        {
+            @:$("#cmbPersona option:not(selected)").prop('disabled', true);
+            @:$("#txtUsuario").prop('readonly', true);
+        }
+
+        $("#btn-agregar").on('click',function(){
+            AgregarDetalleRolCuenta();
+        });
+
+           
+
+            $("#chkShow").on('click', function () {
+                let chkShow = $("#txtContrasenia")
+
+                if (chkShow[0].type === "text") {
+                    chkShow[0].type = "password"
+                    $("#eye").removeClass('fa-eye-slash')
+                    $("#eye").addClass('fa-eye')
+                } else {
+                    chkShow[0].type = "text"
+                    $("#eye").removeClass('fa-eye')
+                    $("#eye").addClass('fa-eye-slash')
+                }
+            })
+
+            $("#HdfPermisoAdministrar").val(localStorage.permisos.includes("ListCuen") ? true : false);
+
+
+            $("#cmbModulos").on('change', function () {
+                ObtenerPermisos();
+            }); 
+            
+            if (localStorage.permisos.includes("EdiCuen")) {
+                return;
+            } else if (!localStorage.permisos.includes("AggCuen")) {
+                window.location.href = "/Home/Index"
+            }
+
+        });
+
+        function Regresar() {
+            window.location.href = localStorage.permisos.includes("ListCuen") ? "/Cuentas/Administrar" : "/Home/Index";
+        }
+
+        function AgregarDetalleRolCuenta() {
+            let cmbModulo = $("#cmbModulos option:selected");
+            let idModulo = cmbModulo.val();
+            let nombreModulo = cmbModulo.text();
+
+            let cmbPermiso = $("#cmbPermisos option:selected");
+            let idPermiso = cmbPermiso.val();
+            let nombrePermiso = cmbPermiso.text();
+
+
+            if (!idModulo) {
+                Swal.fire("Advertemcia", "Seleccione un Modulo", "warning");
+                return;
+            }
+
+            if (!idPermiso) {
+                Swal.fire("Advertemcia", "Seleccione un permiso", "warning");
+                return;
+            }
+
+            let Encontrado = false;
+            if ($("#tbl-detalleCuenta tbody tr").length > 0) {
+                $("#tbl-detalleCuenta tbody tr").each(function (item, valor) {
+                    let permisoEncontrado = $(valor).data('idpermiso');
+
+                    if (permisoEncontrado == idPermiso) {
+                        Encontrado = true;
+                        return;
+                    }                  
+                });
+            }
+
+            if(Encontrado){
+                Swal.fire("Advertemcia", "El permiso ya esta agregado", "warning");
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "AgregarDetalle",
+                data: {
+                    IdModulo: idModulo,
+                    Modulo: nombreModulo,
+                    IdPermiso: idPermiso,
+                    Permiso: nombrePermiso
+                },
+                success: function (resultado) {
+                    $("#tbl-detalleCuenta tbody").append(resultado);
+                    $("#cmbModulos").val('').trigger('change');
+                    $("#cmbPermisos").val('');
+                }
+            });
+        }
+
+        function eliminarItem(row) {
+            $(row).closest('tr').remove();
+        }
+
+        function ObtenerPermisos() {
+            let cmbPermisos = $("#cmbPermisos");
+            let cmbModulos = $("#cmbModulos").val();
+            let urlAction = '@Url.Action("ObtenerPermisos")';
+
+            cmbPermisos.empty();
+            if (!cmbModulos)
+                return;
+
+            $.ajax({
+                type: 'GET',
+                url: urlAction,
+                data: {
+                    IdModulo: cmbModulos
+                },
+
+                success: function (resultado) {
+                    let options = [];
+                    $.each(resultado, function (index, valor) {
+                        let option = `<option value="${valor.idRol}" >${valor.nombre} </option>`
+                        options.push(option);
+                    });
+                    cmbPermisos.append(options);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
+}
+

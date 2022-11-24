@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" />
+    <title>Promecys</title>
+
+    <link rel="icon" type="image/jpg" href="~/Assets/images/icons/favicon.ico" />
+    <link href="~/css/sweetalert2.css" rel="stylesheet" />
+    <script src="~/js/sweetalert2.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Assets/MasterPage/css/MasterPage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+
+                <img src="../Assets/images/Promecys (1).png">
+
+                <button type="button" id="sidebarCollapse" class="btn ">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+
+                </button>
+            </div>
+
+            <hr style="height: 1px;background-color: white;border: none;" />
+            <label id="lblNombreUsuario"></label>
+            <label id="lblCargo"></label>
+            <hr style="height: 1px;background-color: white;border: none;" />
+
+
+            <ul class="list-unstyled components">
+                <li id="sidebarCollapse_" class="btn btn-info" style="background-color: #fff">
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true" style="color:#000"></i>
+                </li>
+                <li class="">
+                    <a href="/Home/Index">
+                        <i class="fa fa-home"></i>
+                        Inicio
+                    </a>
+                </li>
+                <li id="liCatalogo" class="">
+                    <a href="#CatalogoSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-book-open"></i>
+                        Catalogo
+                    </a>
+                    <ul class="collapse list-unstyled" id="CatalogoSubMenu">
+                        <li id="" class="Asignatura">
+                            <a href="#AsignaturaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fa fa-book"></i>
+                                Asignaturas
+                            </a>
+                            <ul class="collapse list-unstyled" id="AsignaturaSubmenu">
+                                <li class="ListAsig">
+                                    <a id="a" asp-area="" asp-controller="Asignatura" asp-action="Administrar">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                        Admin. Asignaturas
+                                    </a>
+                                </li>
+                                <li class="AggAsig">
+                                    <a id="a" asp-area="" asp-controller="Asignatura" asp-action="RegistrarAsignatura">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Nueva Asignatura
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="" class="Estudiante">
+                            <a href="#EsutidanteSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fa fa-graduation-cap"></i>
+                                Estudiantes
+                            </a>
+                            <ul class="collapse list-unstyled" id="EsutidanteSubmenu">
+                                <li class="ListEst">
+                                    <a asp-area="" asp-controller="Estudiante" asp-action="Administrar">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                        Admin. Estudiantes
+                                    </a>
+                                </li>
+                                <li class="AggEst">
+                                    <a asp-area="" asp-controller="Estudiante" asp-action="RegistrarEstudiante">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Nuevo Estudiante
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="" class="Empleado">
+                            <a href="#EmpleadoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Empleados
+                            </a>
+                            <ul class="collapse list-unstyled" id="EmpleadoSubmenu">
+                                <li class="ListEmp">
+                                    <a asp-area="" asp-controller="Empleado" asp-action="Administrar">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                        Admin. Empleados
+                                    </a>
+                                </li>
+                                <li class="AggEmp">
+                                    <a asp-area="" asp-controller="Empleado" asp-action="RegistrarEmpleado">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Nuevo Empleado
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                <li id="liAdministracion" class="">
+                    <a href="#AdministracionSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa-solid fa-clipboard"></i>
+                        Administracion
+                    </a>
+                    <ul class="collapse list-unstyled" id="AdministracionSubMenu">
+                        <li class="Pagos" >
+                            <a href="#PagoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                                Pagos
+                            </a>
+                            <ul class="collapse list-unstyled" id="PagoSubmenu">
+                                <li class="ListTP">
+                                    <a id="a" asp-area="" asp-controller="Pagos" asp-action="TipoPago">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Tipo de Pago
+                                    </a>
+                                </li>
+                                <li class="ListPag">
+                                    <a id="a" asp-area="" asp-controller="Pagos" asp-action="Historial">
+                                        <i class="fa-solid fa-clock-rotate-left"></i>
+                                        Historial de Pagos
+                                    </a>
+                                </li>
+                                <li class="AggPag">
+                                    <a id="a" asp-area="" asp-controller="Pagos" asp-action="Pagos">
+                                        <i class="fa-solid fa-cart-plus"></i>
+                                        Generar Pago
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="" class="Cargos">
+                            <a href="#EmpleadoAdminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Cargos
+                            </a>
+                            <ul class="collapse list-unstyled" id="EmpleadoAdminSubmenu">
+                                <li class="ListCarg">
+                                    <a asp-area="" asp-controller="Empleado" asp-action="AdministrarCargo">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                        Admin. Cargo
+                                    </a>
+                                </li>
+                                <li class="AggCarg">
+                                    <a asp-area="" asp-controller="Empleado" asp-action="RegistrarCargo">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Nuevo Cargo
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="" class="CuentaUsuario">
+                            <a href="#CuentaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Cuenta de usuario
+                            </a>
+                            <ul class="collapse list-unstyled" id="CuentaSubmenu">
+                                <li class="ListCuen">
+                                    <a asp-area="" asp-controller="Cuentas" asp-action="Administrar">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                        Admin. Cuentas
+                                    </a>
+                                </li>
+                                <li class="AggCuen">
+                                    <a asp-area="" asp-controller="Cuentas" asp-action="RegistrarCuenta">
+                                        <i class="fa-solid fa-plus"></i>
+                                        Nuevo Cuenta
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li id="liReportes" class="">
+                    <a href="#ReportesSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa-solid fa-clipboard"></i>
+                        Reportes
+                    </a>
+                    <ul class="collapse list-unstyled" id="ReportesSubMenu">
+                        <li id="" class="ListRep">
+                            <a href="#ReporteEmpleadoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Empleados
+                            </a>
+                            <ul class="collapse list-unstyled" id="ReporteEmpleadoSubmenu">
+                                <li>
+                                    <a id="rptEmpleado" style="cursor:pointer">
+                                        <i class="fa fa-book-open"></i>
+                                        Generar
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="" class="ListRep">
+                            <a href="#ReportePagoSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                <i class="fas fa-user-tie"></i>
+                                Estudiante
+                            </a>
+                            <ul class="collapse list-unstyled" id="ReportePagoSubmenu">
+                                <li>
+                                    <a id="rptEstudiante" style="cursor:pointer">
+                                        <i class="fa fa-book-open"></i>
+                                        Generar
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse_1" class="btn btn-info">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <span style="color:rgba(0,52,133,255); font-weight:bold; font-size:20px;">UNIVERSIDAD NACIONAL DE INGENIERIA - PROMECYS</span>
+
+                <a type="button" id="" class="btn btn-info" href="/InicioSesion/CerrarSesion">
+                    <i class="fa fa-sign-out"></i>
+                </a>
+
+
+            </div>
+        </nav>
+        <div id="rpt"></div>
+        @Html.Partial("_PopupReporte")
+        @Html.Partial("_NotificationPanel")
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Date.ToString("D") - Dev By Isela Ramos, Kelin Martinez, Pedro Chávez</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/MasterPage/js/MasterPage.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            localStorage.setItem("Permisos", @ViewBag.Permisos)
+        })
+    </script>
+}

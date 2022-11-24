@@ -1,0 +1,101 @@
+﻿@model UniPromecys.Models.Pagos.PagosFormModel
+@*@{
+        Layout = null;
+    }*@
+@using (Html.BeginForm("GuardarPago", "Pagos", FormMethod.Post))
+{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>RegistrarAsignatura</title>
+    </head>
+    <body>
+        <form>
+            <div class="mb-3" style="display:none">
+                <label class="form-label">IdTipoDePago</label>
+                @Html.TextBoxFor(x => x.tipoDePago.IdTipoDePago,new { @class= "form-control" , @id="txtIdTipoDePago" , @required = true, @readonly = true})
+                @Html.HiddenFor(x => x.tipoDePago.IdUsuario, new{@id="HdfIdUsuario"})
+                @Html.HiddenFor(x => x.PermisoAdministrar, new{@id="HdfPermisoAdministrar"})
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Codigo Interno</label>
+                    @Html.TextBoxFor(x => x.tipoDePago.CodigoInterno,new { @class= "form-control" , @id="txtCodigoInterno" , @required = true, @placeholder="Ej: Mat"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Precio</label>
+                    @Html.TextBoxFor(x => x.tipoDePago.Precio,new { @class= "form-control", @id="txtPrecio" ,@onkeypress="return check(event)", @required = true,@placeholder="Ej: 50"})
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    @Html.CheckBoxFor(x => x.tipoDePago.Mes, new { @class = "", @id = "chkMes"}) Lleva Mes
+                </div>
+                <div class="form-group col-md-3">
+                    @Html.CheckBoxFor(x => x.tipoDePago.Anio, new { @class = "", @id = "chkAnio"}) Lleva Año
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label class="form-label">Nombre</label>
+                    @Html.TextAreaFor(x => x.tipoDePago.Descripcion, new { @class = "form-control", @id = "txtDescripcion", @required = true })
+                </div>
+            </div>
+
+            <div class="align-bottom">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-warning" onclick="Regresar()">Regresar</a>
+            </div>
+
+        </form>
+    </body>
+    </html>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            if (localStorage.permisos.includes("EdiTP")) {
+                return;
+            } else if(!localStorage.permisos.includes("AggTP")) {
+                window.location.href = "/Home/Index"
+            }
+
+            $("#HdfPermisoAdministrar").val(localStorage.permisos.includes("ListTP") ? true : false);
+
+        @if (Model.Accion == AccionesControlador.Acciones.Editar.ToString())
+        {
+            @:$("#txtCodigoInterno").prop('readonly', true);
+        }
+
+                LimpiarFormulario();
+        });
+        function Regresar() {
+            window.location.href = localStorage.permisos.includes("ListTP") ? "/Pagos/TipoPago" : "/Home/Index";
+        }
+
+        function LimpiarFormulario() {
+            let Precio = $("#txtPrecio");
+
+            //(Precio.val() === '0') ? Precio.val(''):Precio.val();
+        }
+
+        function check(e) {
+            tecla = (document.all) ? e.keyCode : e.which;
+
+            //Tecla de retroceso para borrar, siempre la permite
+            if (tecla == 8) {
+                return true;
+            }
+
+            // Patrón de entrada, en este caso solo acepta numeros y letras
+            patron = /[z0-9]/;
+            tecla_final = String.fromCharCode(tecla);
+            return patron.test(tecla_final);
+        }
+    </script>
+}
+

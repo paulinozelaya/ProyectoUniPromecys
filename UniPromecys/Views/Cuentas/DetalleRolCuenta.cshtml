@@ -1,0 +1,22 @@
+﻿@model UniPromecys.Models.Cuentas.DetalleRolCuentaItem
+@using HtmlHelpers.BeginCollectionItemCore
+
+<tr data-idmodulo="@Model.IdModulo" data-idpermiso="@Model.IdPermiso">
+    @using (Html.BeginCollectionItem("DetalleCuenta"))
+    {
+        <td>
+            @Html.HiddenFor(x=>x.IdModulo)
+            @Html.HiddenFor(x=>x.Modulo)
+            @Html.HiddenFor(x=>x.IdPermiso)
+            @Html.HiddenFor(x=>x.Permiso)
+            <button type="button" class="btn btn-danger" onclick="eliminarItem(this)"><i class="fa fa-trash"></i></button>
+        </td>
+        <td>
+            @Model.Modulo
+        </td>
+        <td>
+            @Model.Permiso
+        </td>
+
+    }
+</tr>

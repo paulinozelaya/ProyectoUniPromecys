@@ -1,0 +1,130 @@
+﻿@model UniPromecys.Models.InicioSesionModel;
+
+@{
+    ViewData["Title"] = "InicioSesion";
+    Layout = null;
+}
+
+@using (Html.BeginForm("IniciarSesion", "InicioSesion", FormMethod.Post))
+{
+    <!DOCTYPE html>
+    <html lang="en">
+    <head runat="server">
+        @*@Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })*@
+        <title>Promecys</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--===============================================================================================-->
+
+        <link rel="icon" type="image/png" href="~/Assets/images/icons/favicon.ico" />
+
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/vendor/bootstrap/css/bootstrap.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/fonts/iconic/css/material-design-iconic-font.min.css" />
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/vendor/animate/animate.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/vendor/css-hamburgers/hamburgers.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/vendor/animsition/css/animsition.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/vendor/select2/select2.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/vendor/daterangepicker/daterangepicker.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="~/Assets/Login/css/util.css">
+        <link rel="stylesheet" type="text/css" href="~/Assets/Login/css/Login.css">
+        <!--===============================================================================================-->
+
+    </head>
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <form class="login100-form validate-form" runat="server">
+                        <!-- <span class="login100-form-title p-b-26">
+                            Bienvenido!
+                        </span> -->
+
+
+                        <span class="login100-form-title">
+                            <i><img src="~/Assets/images/icons/favicon.ico" alt="20"></i>
+                        </span>
+                        @*<div class="row">
+                    <div class="col-md-8">
+                    <div class="form-group">
+                    @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control", @id = "" })
+                    @Html.ValidationMessageFor(x => x.Usuario, "", new { @class = "text-danger" })
+                    </div>
+                    </div>
+
+                    </div>*@
+                        <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+
+
+
+                            <label>Usuario</label>
+                            @Html.ValidationMessageFor(x => x.Usuario, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(x => x.Usuario, new { @class = "input100", @id = "txtUser" , @autocomplete = "off", @required = true})
+                            @*<input class="input100" type="text" name="Usuario" autocomplete="off" id="txtUser" value="">*@
+                            @*<span class="focus-input100" data-placeholder="@placeholdercss"></span>*@
+                        </div>
+
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter password">
+
+                            <label>Contraseña</label>
+                            @Html.ValidationMessageFor(m => m.Contrasena, "", new { @class = "text-danger" })
+                            <span class="btn-show-pass">
+                                <i class="zmdi zmdi-eye"></i>
+                            </span>
+                            @Html.PasswordFor(x => x.Contrasena, new {@class = "input100", @id="txtPass", @autocomplete = "off", @required=true})
+                            @*<input class="input100" type="password" name="Contrasena" autocomplete="off" id="txtPass">*@
+                            @*<span class="focus-input100" data-placeholder="Contraseña"></span>*@
+
+                        </div>
+
+                        @*<Label ID="Error" CssClass="Validacion"></Label>*@
+                        @Html.Label("",ViewBag.Resultado,new {@class="Validacion"})
+
+                        <div class="container-login100-form-btn">
+                            <div class="wrap-login100-form-btn">
+                                <div class="login100-form-bgbtn"></div>
+                                <button class="login100-form-btn" type="submit">
+                                    Iniciar Sesión
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="dropDownSelect1"></div>
+
+        <!--===============================================================================================-->
+        <script src="~/Assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Assets/vendor/animsition/js/animsition.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Assets/vendor/bootstrap/js/popper.js"></script>
+        <script src="~/Assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Assets/vendor/select2/select2.min.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Assets/vendor/daterangepicker/moment.min.js"></script>
+        <script src="~/Assets/vendor/daterangepicker/daterangepicker.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Assets/vendor/countdowntime/countdowntime.js"></script>
+        <!--===============================================================================================-->
+        <script src="~/Assets/Login/js/Login.js"></script>
+
+    </body>
+    </html>
+}
+

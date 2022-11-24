@@ -1,0 +1,28 @@
+﻿@model UniPromecys.Models.Pagos.PagosItemModel 
+
+    <tr>
+         @Html.HiddenFor(x=>x.Carnet)
+         @Html.HiddenFor(x=>x.NombreCompleto)
+         @Html.HiddenFor(x=>x.Descripcion)
+         @Html.HiddenFor(x=>x.Descuento)
+         @Html.HiddenFor(x=>x.Total)
+         @Html.HiddenFor(x=>x.Fecha)
+         <td>
+            @Model.Fecha.ToShortDateString()
+        </td>
+        <td>
+           @Model.Carnet - @Model.NombreCompleto
+        </td>   
+        <td>
+            @Model.Descripcion
+        </td>
+        <td>
+            @Model.Precio
+        </td>
+         <td>
+            @Model.Descuento %
+        </td>
+        <td>
+             @Model.Total
+        </td>
+     

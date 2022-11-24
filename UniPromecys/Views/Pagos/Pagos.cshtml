@@ -1,0 +1,541 @@
+﻿@model UniPromecys.Models.Pagos.PagosFormModel
+
+@using (Html.BeginForm("Guardar", "Pagos", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.PermisoAdministrar, new{@id="HdfPermisoAdministrar"})
+
+    <div class="card border-primary mb-3">
+        <div class="card-header">
+            <div class="row">
+                @Html.HiddenFor(x=>x.Pagos.Descuento , new {@id = "hdf-descuento"})
+                <input id="hdNumeroCarnet" type="hidden" />
+                @Html.TextBoxFor(x => x.Pagos.Carnet,"",new{@id= "txtNumeroCarnet", @class="form-control col-md-3", @style="margin:5px;",@placeholder="Carnet"})
+                <button id="btn-buscar" type="button" class="btn btn-info" style="margin:5px;"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+                @Html.LabelFor(x => x.Pagos.Carnet,"",new{@id="lbl-nombre-estudiante", @class="text-end" ,@style="font-weight: bold; margin-left:auto; align-self:center;"})
+
+                <button type="button" data-toggle="modal" data-target="#exampleModal" data-whatever="" class="btn btn-info" title="Ver Historial" id="btnHistorial" style="display:none; margin-left:auto; align-self:center;"><i class="fa fa-history"></i>Historial</button>
+            </div>
+        </div>
+    </div>
+    <div id="seccion-agregar" class="card" style="display:none;">
+        <div class="card-body text-primary form-row">
+            <div class="form-group col-md-3">
+                <label for="inputState" style="font-weight: bold;">Tipo de pago</label>
+                <select class="form-control" id="cmbTipoDePago" name="@Html.NameFor(x => x.Pagos.IdTipoDePago)">
+                    <option value="">Seleccione...</option>
+                    @foreach (var item in Model.TipoDePagoList)
+                    {
+                        <option value="@item.IdTipoDePago" data-codigo-interno="@item.CodigoInterno" data-precio="@item.Precio" data-mes="@item.Mes" data-anio="@item.Anio">
+                            @item.Descripcion
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group col-md-1" id="div-precio" style="display:none;">
+                <label for="inputState" style="font-weight: bold;">Precio</label>
+                <input class="form-control" id="txtPrecio" readonly="readonly" />
+                @*@Html.DropDownListFor(x => x.Pagos.IdPago,new SelectList("Enero"),"Selecione...",new {@class="form-control",@id="cmbAño"})*@
+            </div>
+            <div class="form-group col-md-3" id="Año">
+                <label for="inputState" style="font-weight: bold;" id="lblAño">Año</label>
+                <input type="number" min="2000" max="2099" value="@DateTime.Today.Year" class="form-control" id="txtAnio" />
+                @*@Html.DropDownListFor(x => x.Pagos.IdPago,new SelectList("Enero"),"Selecione...",new {@class="form-control",@id="cmbAño"})*@
+            </div>
+            <div class="form-group col-md-3" id="Mes">
+                <label for="inputState" style="font-weight: bold;" id="lblMes">Mes</label>
+                @Html.DropDownListFor(x => x.Meses,new SelectList(Model.Meses),"Selecione...",new {@class="form-control",@id="cmbMes"})
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-success" id="btn-agregar"><li class="fa fa-plus" style="color:#fff; font-size:14px"> Agregar</li></a>
+        </div>
+
+        <br />
+        <div class="card-body" style="padding:0px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <table id="tbl-detalle" class="table table-bordered table-responsive-xl">
+                            <thead>
+                                <tr>
+                                    <th style="width:15px">
+
+                                    </th>
+                                    <th>
+                                        Descripcion
+                                    </th>
+                                    <th>
+                                        Precio
+                                    </th>
+                                    <th>
+                                        Descuento
+                                    </th>
+                                    <th>
+                                        Total
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" style="text-align:right">  <b>SubTotal:</b></td>
+                                    <td style="text-align:right">   <span id="spSubTotal"></span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="text-align:right">  <b>Descuento:</b></td>
+                                    <td style="text-align:right">   <span id="spDescuento"></span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="text-align:right">  <b>Total:</b></td>
+                                    <td style="text-align:right">   <span id="spTotal"></span></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="align-bottom">
+            <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+        </div>
+
+    </div>
+
+}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width:60%!important;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    @*@Html.LabelFor(x => x.Pagos.Carnet,Model.Pagos.NombreCompleto,new{@class="text-end" ,@style="font-weight: bold; margin-left:auto; align-self:center;"})*@
+                    <label class="text-end" style="font-weight: bold; margin-left:auto; align-self:center;" id="lbl-nombre-estudiante-modal"></label>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="card-body" style="padding:0px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <table class="table table-bordered" id="tablaHistorial1">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Fecha
+                                                </th>
+                                                <th>
+                                                    Usuario
+                                                </th>
+                                                <th>
+                                                    Descripcion
+                                                </th>
+                                                <th>
+                                                    Precio
+                                                </th>
+                                                <th>
+                                                    Descuento
+                                                </th>
+                                                <th>
+                                                    Total
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#txtAnio").hide()
+        $("#lblAño").hide()
+        $("#cmbMes").hide()
+        $("#lblMes").hide()
+
+
+        $(document).ready(function () {
+            $("#HdfPermisoAdministrar").val(localStorage.permisos.includes("AggPag") ? true : false);
+
+            function Regresar() {
+                window.location.href = localStorage.permisos.includes("AggPag") ? "/Pagos/Pagos" : "/Home/Index";
+            }
+            //$("#btnGuardar").on("click",function(){
+            //    window.open(window.origin + "/Pagos/rptEstudiantes", "Pago Generado", "width=500,height=500,scrollbars=NO")
+            //});
+
+            $("#txtNumeroCarnet").val('')
+
+            $("#cmbTipoDePago").on('change', function () {
+                let comboTipoPago = $("#cmbTipoDePago option:selected");
+                let precio = comboTipoPago.data("precio");
+                let TipoPago = comboTipoPago.data("codigo-interno");
+                let llevaMes = comboTipoPago.data("mes");
+                let llevaAnio = comboTipoPago.data("anio");
+
+                if (comboTipoPago.val() != '') {
+                    $("#div-precio").show();
+                } else {
+                    $("#div-precio").hide();
+                }
+
+                if (llevaMes == "True") {
+                    $("#cmbMes").show()
+                    $("#lblMes").show()
+                } else {
+                    $("#cmbMes").hide()
+                    $("#lblMes").hide()
+                }
+
+                if (llevaAnio == "True") {
+                    $("#txtAnio").show()
+                    $("#lblAño").show()
+                } else {
+                    $("#txtAnio").hide()
+                    $("#lblAño").hide()
+                }
+
+                $("#txtPrecio").val(precio);
+            });
+
+            ValidarFecha();
+
+
+
+            $("#DataTables_Table_0_length").remove();
+            $("#DataTables_Table_1_length").remove();
+
+            $("#btn-agregar").on('click', function () {
+                agregarDetallePago();
+            });
+
+            $("#btn-buscar").on('click', function () {
+                buscarEstudiante();
+            });
+
+            $("#btnHistorial").on('click', function () {
+                ObtenerDatos1();
+                $("#lbl-nombre-estudiante-modal").html($("#lbl-nombre-estudiante"))
+            })
+        });
+
+        function ValidarFecha() {
+            let input = document.getElementById('txtAnio');
+            let date = new Date();
+            input.addEventListener('input', function () {
+                if (this.value.length > 4) {
+                    this.value = this.value.slice(0, 4);
+                }
+                if (this.value > date.getFullYear()) {
+                    this.value = date.getFullYear()
+                }
+            })
+        }
+
+        function calcularTotal() {
+            let subTotal = 0;
+            let descuento = 0;
+            let total = 0;
+
+            if ($("#tbl-detalle tbody tr").length > 0) {
+                $("#tbl-detalle tbody tr").each(function (item, valor) {
+                    let totalTabla = Number($(valor).data('total-pago'));
+                    let subtotalTabla = Number($(valor).data('subtotal'));
+                    //let descuentoT = $(valor).data('descuento');
+                    subTotal += subtotalTabla;
+                    descuento += (subtotalTabla - totalTabla);
+                    total += totalTabla || 0;
+                });
+
+            }
+            $("#spSubTotal").html(subTotal);
+            $("#spDescuento").html(descuento);
+            $("#spTotal").html(total);
+        }
+
+        function eliminarItem(row) {
+            $(row).closest('tr').remove();
+            calcularTotal();
+        }
+
+        function buscarEstudiante() {
+            let numeroCarnet = $("#txtNumeroCarnet").val();
+            let hdfCarnet = $("#hdNumeroCarnet").val();
+            let btnHistorial = $("#btnHistorial");
+
+            if (numeroCarnet == hdfCarnet) {
+                Swal.fire("Error", "Ingrese Carnet", "error")
+                return;
+            }
+
+            if ($("#tbl-detalle tbody tr").length > 0) {
+                $.confirm({
+                    title: 'Confirmacion',
+                    content: 'Estas Seguro que desea buscar otro Estudiante!',
+                    buttons: {
+                        OK: function () {
+                            if (!numeroCarnet) {
+                                Swal.fire("Ingrese un Numero Carnet valido");
+                                $("#lbl-nombre-estudiante").html('');
+                                $("#hdf-descuento").val("0");
+                                $("#tbl-detalle tbody").empty();
+                                $("#hdNumeroCarnet").val(null);
+                                $("#seccion-agregar").hide();
+                                btnHistorial.hide();
+                                calcularTotal();
+                                return;
+                            }
+                            $.ajax({
+                                type: 'GET',
+                                url: 'ObtenerEstudiante',
+                                url: 'ObtenerEstudiante',
+                                data: { NumeroCarnet: numeroCarnet },
+                                success: function (res) {
+                                    if (res) {
+                                        $("#lbl-nombre-estudiante").html(res.nombre);
+                                        $("#hdf-descuento").val(res.descuento)
+                                        $("#seccion-agregar").show();
+                                        $("#tbl-detalle tbody").empty();
+                                        $("#hdNumeroCarnet").val(numeroCarnet);
+                                        btnHistorial.show();
+                                        //btnHistorial.hide();
+                                        calcularTotal();
+                                    }
+                                    else {
+                                        $("#lbl-nombre-estudiante").html('');
+                                        $("#hdf-descuento").val("0");
+                                        $("#tbl-detalle tbody").empty();
+                                        $("#seccion-agregar").hide();
+                                        $("#hdNumeroCarnet").val(null);
+                                        btnHistorial.hide();
+                                        calcularTotal();
+                                        Swal.fire("Error", "No Existe un Estudiante con el Numero Carnet:" + numeroCarnet, "error");
+                                    }
+                                }
+                            });
+
+
+
+                        },
+                        Cancelar: function () {
+                            $("#txtNumeroCarnet").val($("#hdNumeroCarnet").val());
+                            return;
+                        }
+
+                    }
+                });
+            }
+            else {
+                if (!numeroCarnet) {
+                    Swal.fire("Error", "Ingrese un Numero Carnet valido", "error");
+                    $("#lbl-nombre-estudiante").html('');
+                    $("#hdf-descuento").val("0");
+                    $("#tbl-detalle tbody").empty();
+                    $("#hdNumeroCarnet").val(null);
+                    $("#seccion-agregar").hide();
+                    btnHistorial.hide();
+                    return;
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: 'ObtenerEstudiante',
+                    url: 'ObtenerEstudiante',
+                    data: { NumeroCarnet: numeroCarnet },
+                    success: function (res) {
+                        if (res) {
+                            $("#lbl-nombre-estudiante").html(res.nombre);
+                            $("#hdf-descuento").val(res.descuento)
+                            $("#seccion-agregar").show();
+                            $("#tbl-detalle tbody").empty();
+                            $("#hdNumeroCarnet").val(numeroCarnet);
+                            btnHistorial.show();
+                            //btnHistorial.hide();
+                            calcularTotal();
+                        }
+                        else {
+                            $("#lbl-nombre-estudiante").html('');
+                            $("#hdf-descuento").val("0");
+                            $("#tbl-detalle tbody").empty();
+                            $("#seccion-agregar").hide();
+                            $("#hdNumeroCarnet").val(null);
+                            btnHistorial.hide();
+                            Swal.fire("Error", "No Existe un Estudiante con el Numero Carnet:" + numeroCarnet, "error");
+                        }
+                    }
+                });
+            }
+        }
+
+        function agregarDetallePago() {
+            let comboTipoPago = $("#cmbTipoDePago option:selected");
+            let precio = parseFloat($("#txtPrecio").val().replace(/\s/g, "").replace(",", "."));
+            let descuento = 0;
+            let total = 0;
+            let tablaDetalle = $("#tbl-detalle tbody");
+            let anio = 0;
+            let mes = 0;
+            let encontrado;
+            let descripcion;
+            let tipoPago = comboTipoPago.data("codigo-interno");
+            let llevaMes = comboTipoPago.data("mes");
+            let llevaAnio = comboTipoPago.data("anio");
+
+            if(comboTipoPago.val() == ''){
+                Swal.fire("Error", "Seleccione un tipo de pago", "error");
+                return;
+            }
+
+
+            if (llevaMes == "True") {
+                mes = $("#cmbMes option:selected").text();
+            }
+
+            if (llevaAnio == "True") {
+                anio = $("#txtAnio").val();
+            }
+
+            if (llevaAnio == "True") {
+                if (!anio || anio <= 0 || anio.length > 4) {
+                    Swal.fire("Error", "Ingrese un Año valido ", "error");
+                    return;
+                }
+            }
+
+            if (llevaMes == "True") {
+                if (!mes || mes == "Selecione...") {
+                    Swal.fire("Error", "Ingrese un Mes valido ", "error");
+                    return;
+                }
+            }
+
+            let nombreTipoPago = comboTipoPago.text();
+            if ($("#tbl-detalle tbody tr").length > 0) {
+                $("#tbl-detalle tbody tr").each(function (item, valor) {
+                    let tipoPagoEncontrado = $(valor).data('codigo-tipo-pago');
+
+                    if (tipoPagoEncontrado == "Men") {
+                        let mesEncontrado = $(valor).data('mes');
+                        let anioEncontrado = $(valor).data('anio');
+
+                        if (mes == mesEncontrado && anio == anioEncontrado) {
+                            encontrado = true;
+                            return;
+                        }
+                    }
+                    else if (tipoPagoEncontrado == tipoPago) {
+                        encontrado = true;
+                        return;
+                    }
+                });
+            }
+
+            if (llevaAnio == "True") {
+                descripcion = nombreTipoPago + "-" + anio
+                total = precio;
+            }
+
+            if (llevaMes == "True") {
+                descripcion = nombreTipoPago + "-" + mes + "-" + anio;
+                descuento = Number($("#hdf-descuento").val());
+                total = descuento > 0 ? precio - ((descuento / 100) * precio) : precio;
+            }
+
+            if (llevaAnio == "False" && llevaMes == "False") {
+                descripcion = nombreTipoPago
+                total = precio;
+            }
+
+            if (encontrado) {
+                Swal.fire("Error", `Ya Existe un Item para el Pago de ${nombreTipoPago}`, "error");
+                return;
+            }
+
+
+            $.ajax({
+                type: "GET",
+                url: "DetallePago",
+                data: {
+                    CodigoTipoPago: tipoPago,
+                    Anio: anio,
+                    Mes: mes,
+                    Descripcion: descripcion,
+                    Precio: precio,
+                    Descuento: descuento,
+                    Total: total
+                },
+                success: function (res) {
+                    tablaDetalle.append(res);
+                    $("#cmbTipoDePago").val('').trigger('change');
+                    calcularTotal();
+                }
+            });
+        }
+
+        function ObtenerDatos() {
+            let FechaDesde = $("#FechaDesde").val();
+            let FechaHasta = $("#FechaHasta").val();
+            let tablaHistorial = $("#tablaHistorial tbody");
+            let carnet = $("#txtNumeroCarnet").val()
+
+            $.ajax({
+                type: "GET",
+                url: "ObtenerHistorial",
+                data: {
+                    FechaDesde: FechaDesde,
+                    FechaHasta: FechaHasta,
+                    Carnet: carnet
+                },
+                beforeSend: function () {
+                    document.getElementById("loading").style.display = "";
+                },
+                success: function (res) {
+                    $("#tablaHistorial tbody").empty();
+                    document.getElementById("loading").style.display = "none";
+                    tablaHistorial.append(res);
+                }
+            });
+        }
+
+        function ObtenerDatos1() {
+            let FechaDesde = $("#FechaDesde").val();
+            let FechaHasta = $("#FechaHasta").val();
+            let tablaHistorial1 = $("#tablaHistorial1 tbody");
+            let carnet = $("#txtNumeroCarnet").val()
+
+            $.ajax({
+                type: "GET",
+                url: "ObtenerHistorialDetalle",
+                data: {
+                    FechaDesde: FechaDesde,
+                    FechaHasta: FechaHasta,
+                    Carnet: carnet
+                },
+                beforeSend: function () {
+                    //document.getElementById("loading").style.display = "";
+                },
+                success: function (res) {
+                    $("#tablaHistorial1 tbody").empty();
+                    //document.getElementById("loading").style.display = "none";
+                    tablaHistorial1.append(res);
+                }
+            });
+        }
+    </script>
+}

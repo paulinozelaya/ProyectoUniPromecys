@@ -1,0 +1,109 @@
+﻿@model List<UniPromecys.Models.CargoModel>
+@*@{
+        Layout = null;
+    }*@
+@*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">*@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group d-flex justify-content-start">
+                    <a class="btn btn-success AggCarg" href="/Empleado/RegistrarCargo"><i class="fa fa-plus"></i>Agregar</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group d-flex justify-content-end">
+                    <label>Promecys -> Administrar -> Cargo</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <hr />
+                    <table class="table table-bordered table-responsive-xl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Codigo Interno
+                                </th>
+                                <th>
+                                    Nombre
+                                </th>
+                                <th>
+                                    Descripcion
+                                </th>
+                                <th>
+                                    Opciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.CodigoInterno
+                                    </td>
+                                    <td>
+                                        @item.Nombre
+                                    </td>
+                                    <td>
+                                        @item.Descripcion
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info EdiCarg" title="Editar" href="/Empleado/EditarCargo?IdCargo=@item.IdCargo"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-danger ElimCarg" title="Eliminar" href="/Empleado/EliminarCargo?IdCargo=@item.IdCargo"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            if (!localStorage.permisos.includes("ListCarg")) {
+                window.location.href = "/Home/Index"
+            }
+
+            //$('.table').DataTable();
+            $('.table').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+}
+
+
+    @*<script src="~/Assets/vendor/bootstrap/js/bootstrap.min.js"></script>*@

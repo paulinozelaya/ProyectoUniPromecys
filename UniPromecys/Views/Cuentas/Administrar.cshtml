@@ -1,0 +1,103 @@
+﻿@model UniPromecys.Models.Cuentas.CuentasAdminModel
+@*@{
+        Layout = null;
+    }*@
+@*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">*@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group d-flex justify-content-start">
+                    <a class="btn btn-success AggCuen" href="/Cuentas/RegistrarCuenta"><i class="fa fa-plus"></i>Agregar</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group d-flex justify-content-end">
+                    <label>Promecys -> Administrar -> Cuentas</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <hr />
+                    <table class="table table-bordered table-responsive-xl">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Usuario
+                                </th>
+                                <th>
+                                    Nombre Completo
+                                </th>
+                                <th>
+                                    Opciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListadoCuentas)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Usuario
+                                    </td>
+                                    <td>
+                                        @item.NombreCompleto
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info EdiCuen" title="Editar" href="/Cuentas/Editar?IdCuenta=@item.IdCuenta"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-danger ElimCuen" title="Eliminar" href="/Cuentas/Eliminar?IdCuenta=@item.IdCuenta"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            if (!localStorage.permisos.includes("ListCuen")) {
+                window.location.href = "/Home/Index"
+            }
+            //$('.table').DataTable();
+            $('.table').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+
+        });
+    </script>
+}
+
+
+    @*<script src="~/Assets/vendor/bootstrap/js/bootstrap.min.js"></script>*@

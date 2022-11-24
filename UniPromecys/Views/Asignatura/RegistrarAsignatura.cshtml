@@ -1,0 +1,69 @@
+﻿@model UniPromecys.Models.Asignatura.AsignaturaItemModel
+@*@{
+        Layout = null;
+    }*@
+@using (Html.BeginForm("GuardarAsignatura", "Asignatura", FormMethod.Post))
+{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>RegistrarAsignatura</title>
+    </head>
+    <body>
+        <form>
+            <div class="mb-3" style="display:none">
+                <label class="form-label">IdAsignatura</label>
+                @Html.TextBoxFor(x => x.IdAsignatura,new { @class= "form-control" , @id="txtIdAsignatura" , @required = true, @readonly = true})
+                @Html.HiddenFor(x => x.PermisoAdministrar, new{@id="HdfPermisoAdministrar"})
+
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                @Html.TextBoxFor(x => x.Nombre,new { @class= "form-control" , @id="txtNombre" , @required = true})            </div>
+            <div class="mb-3">
+                <label class="form-label">Codigo Interno</label>
+                @Html.TextBoxFor(x => x.CodigoInterno, new { @class = "form-control", @id = "txtCodigoInterno", @required = true})
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Creditos</label>
+                @Html.TextBoxFor(x => x.Creditos, new { @class = "form-control", @id = "txtCreditos", @required = true, @type="Number"})
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Descripcion</label>
+                @Html.TextAreaFor(x => x.Descripcion, new { @class = "form-control", @id = "txtDescripcion", @required = true })
+            </div>
+            <div class="align-bottom">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-warning" onclick="Regresar()">Regresar</a>
+            </div>
+
+        </form>
+    </body>
+</html>
+}
+@section scripts{ 
+    <script>
+        $(document).ready(function () {
+            @if(Model.Accion == AccionesControlador.Acciones.Editar.ToString())
+            {
+                @:$("#txtCodigoInterno").prop('readonly', true);
+            }
+
+            if (localStorage.permisos.includes("EdiAsig")) {
+                return;
+            } else if (!localStorage.permisos.includes("AggAsig")) {
+                        window.location.href="/Home/Index"
+                    }
+
+                $("#HdfPermisoAdministrar").val(localStorage.permisos.includes("ListAsig") ? true : false);
+
+            });
+
+        function Regresar() {
+            window.location.href = localStorage.permisos.includes("ListAsig") ? "/Asignatura/Administrar" : "/Home/Index";
+        }
+    </script>
+}
+

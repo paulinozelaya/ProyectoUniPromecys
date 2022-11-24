@@ -1,0 +1,70 @@
+﻿@model UniPromecys.Models.CargoModel
+@*@{
+        Layout = null;
+    }*@
+@using (Html.BeginForm("GuardarCargo", "Empleado", FormMethod.Post))
+{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>RegistrarAsignatura</title>
+    </head>
+    <body>
+        <form>
+            <div class="mb-3" style="display:none">
+                <label class="form-label">IdTipoDePago</label>
+                @Html.TextBoxFor(x => x.IdCargo,new { @class= "form-control" , @id="txtIdCargo" , @required = true, @readonly = true})
+                @Html.HiddenFor(x => x.IdUsuario, new{@id="HdfIdUsuario"})
+                @Html.HiddenFor(x => x.PermisoAdministrar, new{@id="HdfPermisoAdministrar"})
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Codigo Interno</label>
+                    @Html.TextBoxFor(x => x.CodigoInterno,new { @class= "form-control" , @id="txtCodigoInterno" , @required = true, @placeholder="Ej: Admin"})
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="inputText4" style="font-weight: bold;">Nombre</label>
+                    @Html.TextBoxFor(x => x.Nombre,new { @class= "form-control", @id="txtNombre", @required = true,@placeholder="Ej: Administrador"})
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputText4" style="font-weight: bold;">Descripcion</label>
+                    @Html.TextAreaFor(x => x.Descripcion,new { @class= "form-control",@rows="4", @id="txtDescripcion", @required = true,@placeholder="Ej: Permisos Completos"})
+                </div>
+            </div>
+            <div class="align-bottom">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a class="btn btn-warning" onclick="Regresar()">Regresar</a>
+            </div>
+
+        </form>
+    </body>
+    </html>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+        @if (Model.Accion == AccionesControlador.Acciones.Editar.ToString())
+        {
+            @:$("#txtCodigoInterno").prop('readonly', true);
+        }
+            if (localStorage.permisos.includes("EdiCarg")){
+                return;
+            }else if (!localStorage.permisos.includes("AggCarg")) {
+                window.location.href = "/Home/Index"
+            }
+
+            $("#HdfPermisoAdministrar").val(localStorage.permisos.includes("ListCarg") ? true : false);
+        });
+
+        function Regresar() {
+            window.location.href = localStorage.permisos.includes("ListCarg") ? "/Empleado/AdministrarCargo" : "/Home/Index";
+        }
+
+    </script>
+}
+

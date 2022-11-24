@@ -1,0 +1,31 @@
+﻿@model UniPromecys.Models.Pagos.DetallePagoItemModel
+@using HtmlHelpers.BeginCollectionItemCore
+
+<tr data-codigo-tipo-pago="@Model.CodigoTipoPago" data-anio="@Model.Anio" data-mes="@Model.Mes" data-total-pago="@Model.Total" data-subtotal="@Model.Precio" data-descuento="@Model.Descuento">
+@using (Html.BeginCollectionItem("Detalle"))
+    {
+    <td>
+        @Html.HiddenFor(x=>x.Descripcion)
+        @Html.HiddenFor(x=>x.Precio)
+        @Html.HiddenFor(x=>x.Descuento)
+        @Html.HiddenFor(x=>x.Total)
+        @Html.HiddenFor(x=>x.Anio)
+        @Html.HiddenFor(x=>x.CodigoTipoPago, new {@id= "CodigoTipoPago"})
+        @Html.HiddenFor(x=>x.Mes)
+        <button type="button" class="btn btn-danger EliPago" onclick="eliminarItem(this)"><i class="fa fa-trash"></i></button>
+    </td>
+    <td>
+        @Model.Descripcion
+    </td>
+    <td>
+        @Model.Precio
+    </td>
+    <td>
+        @Model.Descuento %
+    </td>
+    <td>
+        @Model.Total
+    </td>
+
+    }
+</tr>
