@@ -1,4 +1,31 @@
 ﻿$(document).ready(function () {
+    $('.solo-numero').bind('keypress', function (e) {
+        var regex = new RegExp("^[0-9]+$");
+        var key = String.fromCharCode(!event.CharCode ? event.which : event.CharCode)
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    $('.solo-letras').bind('keypress', function (e) {
+        var regex = new RegExp("^[a-zA-Z]+$");
+        var key = String.fromCharCode(!event.CharCode ? event.which : event.CharCode)
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    $('.letrasYnumeros').bind('keypress', function (e) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var key = String.fromCharCode(!event.CharCode ? event.which : event.CharCode)
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
     $("#rptEmpleado").on('click', function () {
         $("#Home").hide();
         document.getElementById("rpt").innerHTML = '<embed src="/Reportes/rptEmpleados" class="w-100" style="min-height:100vh;"/>'

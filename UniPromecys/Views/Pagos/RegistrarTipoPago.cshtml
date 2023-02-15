@@ -23,11 +23,11 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Codigo Interno</label>
-                    @Html.TextBoxFor(x => x.tipoDePago.CodigoInterno,new { @class= "form-control" , @id="txtCodigoInterno" , @required = true, @placeholder="Ej: Mat"})
+                    @Html.TextBoxFor(x => x.tipoDePago.CodigoInterno,new { @class= "form-control solo-letras" , @id="txtCodigoInterno" , @required = true, @placeholder="Ej: Mat"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Precio</label>
-                    @Html.TextBoxFor(x => x.tipoDePago.Precio,new { @class= "form-control", @id="txtPrecio" ,@onkeypress="return check(event)", @required = true,@placeholder="Ej: 50"})
+                    @Html.TextBoxFor(x => x.tipoDePago.Precio,new { @class= "form-control solo-numero", @id="txtPrecio", @required = true,@placeholder="Ej: 50"})
                 </div>
             </div>
             <div class="form-row">
@@ -41,7 +41,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label class="form-label">Nombre</label>
-                    @Html.TextAreaFor(x => x.tipoDePago.Descripcion, new { @class = "form-control", @id = "txtDescripcion", @required = true })
+                    @Html.TextAreaFor(x => x.tipoDePago.Descripcion, new { @class = "form-control letrasYnumeros", @id = "txtDescripcion", @required = true })
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-
+            LimpiarFormulario();
             if (localStorage.permisos.includes("EdiTP")) {
                 return;
             } else if(!localStorage.permisos.includes("AggTP")) {
@@ -71,7 +71,7 @@
             @:$("#txtCodigoInterno").prop('readonly', true);
         }
 
-                LimpiarFormulario();
+                
         });
         function Regresar() {
             window.location.href = localStorage.permisos.includes("ListTP") ? "/Pagos/TipoPago" : "/Home/Index";
@@ -80,22 +80,22 @@
         function LimpiarFormulario() {
             let Precio = $("#txtPrecio");
 
-            //(Precio.val() === '0') ? Precio.val(''):Precio.val();
+            (Precio.val() === '0') ? Precio.val(''):Precio.val();
         }
 
-        function check(e) {
-            tecla = (document.all) ? e.keyCode : e.which;
+        //function check(e) {
+        //    tecla = (document.all) ? e.keyCode : e.which;
 
-            //Tecla de retroceso para borrar, siempre la permite
-            if (tecla == 8) {
-                return true;
-            }
+        //    //Tecla de retroceso para borrar, siempre la permite
+        //    if (tecla == 8) {
+        //        return true;
+        //    }
 
-            // Patrón de entrada, en este caso solo acepta numeros y letras
-            patron = /[z0-9]/;
-            tecla_final = String.fromCharCode(tecla);
-            return patron.test(tecla_final);
-        }
+        //    // Patrón de entrada, en este caso solo acepta numeros y letras
+        //    patron = /[z0-9]/;
+        //    tecla_final = String.fromCharCode(tecla);
+        //    return patron.test(tecla_final);
+        //}
     </script>
 }
 

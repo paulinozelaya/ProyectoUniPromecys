@@ -21,19 +21,19 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Primer Nombre</label>
-                    @Html.TextBoxFor(x => x.Empleado.PrimerNombre,new { @class= "form-control" , @id="txtPrimerNombre" , @required = true, @placeholder="Ej: Isela"})
+                    @Html.TextBoxFor(x => x.Empleado.PrimerNombre,new { @class= "form-control solo-letras" , @id="txtPrimerNombre" , @required = true, @placeholder="Ej: Isela"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Segundo Nombre</label>
-                    @Html.TextBoxFor(x => x.Empleado.SegundoNombre,new { @class= "form-control" , @id="txtSegundoNombre",@placeholder="Ej: del Rosario"})
+                    @Html.TextBoxFor(x => x.Empleado.SegundoNombre,new { @class= "form-control solo-letras" , @id="txtSegundoNombre",@placeholder="Ej: del Rosario"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Primer Apellido</label>
-                    @Html.TextBoxFor(x => x.Empleado.PrimerApellido,new { @class= "form-control" , @id="txtPrimerApellido" , @required = true,@placeholder="Ej: Ramos"})
+                    @Html.TextBoxFor(x => x.Empleado.PrimerApellido,new { @class= "form-control solo-letras" , @id="txtPrimerApellido" , @required = true,@placeholder="Ej: Ramos"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Segundo Apellido</label>
-                    @Html.TextBoxFor(x => x.Empleado.SegundoApellido,new { @class= "form-control" , @id="txtSegundoApellido",@placeholder="Ej: Mercado"})
+                    @Html.TextBoxFor(x => x.Empleado.SegundoApellido,new { @class= "form-control solo-letras" , @id="txtSegundoApellido",@placeholder="Ej: Mercado"})
                 </div>
             </div>
             <div class="form-row">
@@ -51,17 +51,17 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Edad</label>
-                    @Html.TextBoxFor(x => x.Empleado.Edad,new { @class= "form-control" , @id="txtEdad" , @required = true, @placeholder="Ej: 23"})
+                    @Html.TextBoxFor(x => x.Empleado.Edad,new { @class= "form-control solo-numeros" , @id="txtEdad" , @required = true, @placeholder="Ej: 23",@maxlength="3",@minlength="2"})
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputAddress" style="font-weight: bold;">Direccion</label>
-                    @Html.TextBoxFor(x => x.Empleado.Direccion,new { @class= "form-control" , @id="txtDireccion" , @required = true,@placeholder="Ej: Costado sur de Villa Progreso"})
+                    @Html.TextBoxFor(x => x.Empleado.Direccion,new { @class= "form-control" , @id="txtDireccion" , @required = true,@placeholder="Ej: Costado sur de Villa Progreso",@maxlength="13"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">CodigoPostal</label>
-                    @Html.TextBoxFor(x => x.Empleado.CodigoPostal,new { @class= "form-control" , @id="txtCodigoPostal", @placeholder="Ej: 11001"})
+                    @Html.TextBoxFor(x => x.Empleado.CodigoPostal,new { @class= "form-control solo-numero" , @id="txtCodigoPostal", @placeholder="Ej: 11001"})
                 </div>
             </div>
             <div class="form-row">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputText4" style="font-weight: bold;">Contacto</label>
-                    @Html.TextBoxFor(x => x.Empleado.Contacto,new { @class= "form-control" , @id="txtContacto" , @required = true, @placeholder="Ej: 82624427"})
+                    @Html.TextBoxFor(x => x.Empleado.Contacto,new { @class= "form-control solo-numero" , @id="txtContacto" , @required = true, @placeholder="Ej: 82624427"})
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputState" style="font-weight: bold;">Cargo</label>
@@ -128,14 +128,18 @@
             }
         }
 
-            $("#txtContacto").on('keyup', function () {
-                let Contacto = $("#txtContacto").val()
-                if (Contacto.length < 5) {
-                    if ($("#cmbNacionalidad").val() === '1') {
-                        $("#txtContacto").val('00505')
+                $("#txtContacto").on('keyup', function () {
+                    let Contacto = $("#txtContacto").val()
+                    if (parseInt($("#cmbNacionalidad").val()) > 0) {
+                        if ($("#cmbNacionalidad").val() === '1' && Contacto.substring(0, 5) !== '00505') {
+                            $("#txtContacto").val('00505')
+                        }
+                    } else if (Contacto.length < 5) {
+                        if ($("#cmbNacionalidad").val() === '1' && Contacto.substring(0, 5) !== '00505') {
+                            $("#txtContacto").val('00505')
+                        }
                     }
-                }
-            })
+                })
 
             if ($("#cmbTipoIdentificacion").val() === '0') {
                 $("#txtIdentificacion").prop('readonly', true);
@@ -364,6 +368,7 @@
                         options.push(option);
                     });
                     cmbDepartamento.append(options);
+                    $("#cmbDepartamento").val('0')
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(thrownError);

@@ -23,17 +23,17 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Codigo Interno</label>
-                    @Html.TextBoxFor(x => x.CodigoInterno,new { @class= "form-control" , @id="txtCodigoInterno" , @required = true, @placeholder="Ej: Admin"})
+                    @Html.TextBoxFor(x => x.CodigoInterno,new { @class= "form-control solo-letras" , @id="txtCodigoInterno" , @required = true, @placeholder="Ej: Admin"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">Nombre</label>
-                    @Html.TextBoxFor(x => x.Nombre,new { @class= "form-control", @id="txtNombre", @required = true,@placeholder="Ej: Administrador"})
+                    @Html.TextBoxFor(x => x.Nombre,new { @class= "form-control solo-letras", @id="txtNombre", @required = true,@placeholder="Ej: Administrador"})
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="inputText4" style="font-weight: bold;">Descripcion</label>
-                    @Html.TextAreaFor(x => x.Descripcion,new { @class= "form-control",@rows="4", @id="txtDescripcion", @required = true,@placeholder="Ej: Permisos Completos"})
+                    @Html.TextAreaFor(x => x.Descripcion,new { @class= "form-control letrasYnumeros",@rows="4", @id="txtDescripcion", @required = true,@placeholder="Ej: Permisos Completos"})
                 </div>
             </div>
             <div class="align-bottom">
