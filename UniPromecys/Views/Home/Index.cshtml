@@ -2,41 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center" id="Home">
-    <img id="img" width="650" height="150" src="https://fcys.uni.edu.ni/wp-content/uploads/2022/03/Baner-Encabezado-Promecys-1024x259.png" />
-    <br />
-    <br />
-    <h5>Perfil del ingeniero en sistemas</h5>
-    <hr />
-    <p>
-        Actualmente las organizaciones enfrentan los cambios del fenómeno de la globalización y la internacionalización así como las condiciones en las que se da el procesamiento de la información y la construcción del conocimiento, por lo tanto, se requiere del desarrollo y gestión de sistemas organizacionales, que les permita la generación de soluciones, articulando los diferentes subsistemas de la organización en pro de lograr sinergia, efectividad, calidad y productividad para la consecución de los objetivos de la misma, contribuyendo así al desarrollo socioeconómico del país.
-
-        Al finalizar el programa de formación académica con nosotros el graduado en Ingeniería de Sistemas, habrá adquirido los conocimientos, habilidades y actitudes que lo acreditan para insertarse con alta disposición, en los diferentes campos de acción de la carrera, siendo capaces de desarrollar y gestionar sistemas organizacionales eficaces, eficientes, innovadores, de calidad y competitivos de manera que aporten al desarrollo socioeconómico y tecnológico de la sociedad.
-    </p>
-
-    <h5>Programa de formación</h5>
-    <hr />
-    <img id="img2" with="259" height="650" src="https://fcys.uni.edu.ni/wp-content/uploads/2022/02/Programa-de-formacion-Promecys.png" />
+<div id="carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/Assets/images/imagen01.jpg" class="d-block w-100" alt="Imagen 1">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Assets/images/imagen02.jpg" class="d-block w-100" alt="Imagen 2">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Assets/images/imagen03.jpg" class="d-block w-100" alt="Imagen 3">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Assets/images/imagen04.jpg" class="d-block w-100" alt="Imagen 4">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Assets/images/imagen05.jpg" class="d-block w-100" alt="Imagen 5">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Assets/images/imagen06.jpg" class="d-block w-100" alt="Imagen 6">
+        </div>
+    </div>
+    <!-- Controles del carrusel -->
+    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Siguiente</span>
+    </a>
 </div>
 
-@*@section scripts{
+@section scripts{
     <script>
         $(document).ready(function () {
-            $.ajax({
-                type: 'GET',
-                url: "ObtenerPermisos",
-                data: {
-                },
-
-                success: function (resultado) {
-                    localStorage.setItem("permisos", JSON.stringify(resultado));
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError);
-                }
+            $('.carousel').carousel({
+                interval: 2000 // Cambiar cada 3 segundos (puedes ajustar el tiempo)
             });
         })
-
-        
     </script>
-}*@
+}

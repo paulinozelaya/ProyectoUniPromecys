@@ -57,7 +57,7 @@
             <div class="form-row">
                 <div class="form-group col-md-9">
                     <label for="inputAddress" style="font-weight: bold;">Direccion</label>
-                    @Html.TextBoxFor(x => x.Empleado.Direccion,new { @class= "form-control" , @id="txtDireccion" , @required = true,@placeholder="Ej: Costado sur de Villa Progreso",@maxlength="13"})
+                    @Html.TextBoxFor(x => x.Empleado.Direccion,new { @class= "form-control solo-letras-espacios" , @id="txtDireccion" , @required = true,@placeholder="Ej: Costado sur de Villa Progreso"})
                 </div>
                 <div class="form-group col-md-3">
                     <label for="inputText4" style="font-weight: bold;">CodigoPostal</label>
@@ -128,18 +128,18 @@
             }
         }
 
-                $("#txtContacto").on('keyup', function () {
-                    let Contacto = $("#txtContacto").val()
-                    if (parseInt($("#cmbNacionalidad").val()) > 0) {
-                        if ($("#cmbNacionalidad").val() === '1' && Contacto.substring(0, 5) !== '00505') {
-                            $("#txtContacto").val('00505')
-                        }
-                    } else if (Contacto.length < 5) {
-                        if ($("#cmbNacionalidad").val() === '1' && Contacto.substring(0, 5) !== '00505') {
-                            $("#txtContacto").val('00505')
-                        }
-                    }
-                })
+                //$("#txtContacto").on('keyup', function () {
+                //    let Contacto = $("#txtContacto").val()
+                //    if (parseInt($("#cmbNacionalidad").val()) > 0) {
+                //        if ($("#cmbNacionalidad").val() === '1' && Contacto.substring(0, 5) !== '00505') {
+                //            $("#txtContacto").val('00505')
+                //        }
+                //    } else if (Contacto.length < 5) {
+                //        if ($("#cmbNacionalidad").val() === '1' && Contacto.substring(0, 5) !== '00505') {
+                //            $("#txtContacto").val('00505')
+                //        }
+                //    }
+                //})
 
             if ($("#cmbTipoIdentificacion").val() === '0') {
                 $("#txtIdentificacion").prop('readonly', true);
@@ -218,7 +218,7 @@
 
             $("#txtEdad").val() == '0' ? $("#txtEdad").val('') : ''
 
-            $("#txtContacto").val() == '0' ? $("#txtContacto").val('') : ''
+            $("#txtContacto").val() == '0' ? $("#txtContacto").val('') : $("#txtContacto").val()
 
         });
 

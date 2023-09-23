@@ -17,6 +17,15 @@
         }
     });
 
+    $('.solo-letras-espacios').bind('keypress', function (e) {
+        var regex = new RegExp("^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\\s]+$");
+        var key = String.fromCharCode(e.charCode || e.which);
+        if (!regex.test(key)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
     $('.letrasYnumeros').bind('keypress', function (e) {
         var regex = new RegExp("^[a-zA-Z0-9]+$");
         var key = String.fromCharCode(!event.CharCode ? event.which : event.CharCode)
