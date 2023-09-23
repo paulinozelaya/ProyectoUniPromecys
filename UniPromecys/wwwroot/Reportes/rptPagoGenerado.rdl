@@ -5,8 +5,8 @@
   <DataSources>
     <DataSource Name="DsPagos">
       <ConnectionProperties>
-        <DataProvider>SQLAZURE</DataProvider>
-        <ConnectString>Data Source=promecys.database.windows.net;Initial Catalog=UniPromecys;Uid=unipromecys;Pwd=Isela170599@</ConnectString>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=unipromecys.cw4johhaaqj3.us-east-1.rds.amazonaws.com;Initial Catalog=UniPromecys;User ID=admin;Password=Isela170599;</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>4ec59200-f96d-47cd-8c11-35fd86b20e28</rd:DataSourceID>
@@ -908,7 +908,7 @@
             <Top>5.44724cm</Top>
             <Left>1.13453cm</Left>
             <Height>3.705cm</Height>
-            <Width>15.53422cm</Width>
+            <Width>15.53421cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>

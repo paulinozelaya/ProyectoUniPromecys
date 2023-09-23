@@ -5,9 +5,9 @@
   <DataSources>
     <DataSource Name="DataSource">
       <ConnectionProperties>
-        <DataProvider>SQLAZURE</DataProvider>
-        <ConnectString>Data Source=promecys.database.windows.net;Initial Catalog=UniPromecys;Uid=unipromecys;Pwd=Isela170599@</ConnectString>
-        <Prompt>Especifique un nombre de usuario y una contraseña para el origen de datos DataSource:</Prompt>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=unipromecys.cw4johhaaqj3.us-east-1.rds.amazonaws.com;Initial Catalog=UniPromecys;User ID=admin;Password=Isela170599;
+</ConnectString>
       </ConnectionProperties>
       <rd:SecurityType>DataBase</rd:SecurityType>
       <rd:DataSourceID>0ad9f256-75fe-46f1-b4f5-3dc009fe2759</rd:DataSourceID>
